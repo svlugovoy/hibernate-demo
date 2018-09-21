@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence" version="2.1">
+
+    <persistence-unit name="ActorsDirectorsMoviesPostgres">
+        <!--<class>com.svlugovoy.domain.Actor</class>-->
+        <!--<class>com.svlugovoy.domain.Director</class>-->
+        <!--<class>com.svlugovoy.domain.Movie</class>-->
+
+        <properties>
+            <property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/testdb"/>
+            <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
+            <property name="hibernate.connection.username" value="test"/>
+            <property name="hibernate.connection.password" value="test"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL95Dialect"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+        </properties>
+    </persistence-unit>
+
+</persistence>
