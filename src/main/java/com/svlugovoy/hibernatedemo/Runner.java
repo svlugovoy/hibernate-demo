@@ -65,31 +65,31 @@ public class Runner {
         System.out.println(newActorById);
         System.out.println("#####***######");
 
-        Actor actorById = actorDao.findById(5L);
+        Actor actorById = actorDao.findById(100005L);
         System.out.println(actorById);
 
         actorById.setFirstName("UPDATED");
         actorDao.update(actorById);
 
-        Actor updatedActorById = actorDao.findById(5L);
+        Actor updatedActorById = actorDao.findById(100005L);
         System.out.println(updatedActorById);
         System.out.println("#####***######");
 
-        actorDao.remove(5L);
+        actorDao.remove(100005L);
         try {
-            System.out.println(actorDao.findById(5L));
+            System.out.println(actorDao.findById(100005L));
             throw new RuntimeException("Should not be here");
         } catch (DaoOperationException e) {
             System.out.println("Actor deleted successful");
         }
         System.out.println("#####***######");
 
-        Director director = directorDao.findById(1L);
+        Director director = directorDao.findById(100001L);
         List<Actor> actorsInFilmsFromDirector = actorDao.findActorsInFilmsFromDirector(director);
         actorsInFilmsFromDirector.forEach(System.out::println);
         System.out.println("#####***######");
 
-        Actor actor = actorDao.findById(1L);
+        Actor actor = actorDao.findById(100001L);
         List<Movie> moviesWithActor = movieDao.findAllMoviesWithActor(actor);
         moviesWithActor.forEach(System.out::println);
         System.out.println("#####***######");

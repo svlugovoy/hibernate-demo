@@ -28,8 +28,16 @@ DROP TABLE IF EXISTS directors CASCADE;
 DROP TABLE IF EXISTS movies CASCADE;
 DROP TABLE IF EXISTS actors_movies;
 
+DROP SEQUENCE IF EXISTS actors_seq;
+DROP SEQUENCE IF EXISTS directors_seq;
+DROP SEQUENCE IF EXISTS movies_seq;
+
+CREATE SEQUENCE actors_seq START 100001;
+CREATE SEQUENCE directors_seq START 100001;
+CREATE SEQUENCE movies_seq START 100001;
+
 CREATE TABLE actors (
-  id SERIAL,
+  id BIGINT DEFAULT nextval('actors_seq'),
   first_name VARCHAR(255) NOT NULL,
   last_name VARCHAR(255) NOT NULL,
   birthday DATE NOT NULL,
@@ -40,7 +48,7 @@ CREATE TABLE actors (
 );
 
 CREATE TABLE directors (
-  id SERIAL,
+  id BIGINT DEFAULT nextval('directors_seq'),
   first_name VARCHAR(255) NOT NULL,
   last_name VARCHAR(255) NOT NULL,
   birthday DATE NOT NULL,
@@ -51,7 +59,7 @@ CREATE TABLE directors (
 );
 
 CREATE TABLE movies (
-  id SERIAL,
+  id BIGINT DEFAULT nextval('movies_seq'),
   name VARCHAR(255) NOT NULL,
   year_of_creation SMALLINT NOT NULL,
   genre VARCHAR(255) NOT NULL,
