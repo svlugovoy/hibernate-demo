@@ -33,7 +33,7 @@ CREATE TABLE actors (
   first_name VARCHAR(255) NOT NULL,
   last_name VARCHAR(255) NOT NULL,
   birthday DATE NOT NULL,
-  gender CHAR(1) NOT NULL,
+  gender VARCHAR(6) NOT NULL,
   instagram VARCHAR(255),
   CONSTRAINT actors_PK PRIMARY KEY (id),
   CONSTRAINT actors_instagram_AK UNIQUE (instagram)
@@ -44,7 +44,7 @@ CREATE TABLE directors (
   first_name VARCHAR(255) NOT NULL,
   last_name VARCHAR(255) NOT NULL,
   birthday DATE NOT NULL,
-  gender CHAR(1) NOT NULL,
+  gender VARCHAR(6) NOT NULL,
   instagram VARCHAR(255),
   CONSTRAINT directors_PK PRIMARY KEY (id),
   CONSTRAINT directors_instagram_AK UNIQUE (instagram)

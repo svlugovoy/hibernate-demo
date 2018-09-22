@@ -1,5 +1,6 @@
 package com.svlugovoy.hibernatedemo.domain;
 
+import com.svlugovoy.hibernatedemo.domain.enums.Gender;
 import lombok.*;
 
 import javax.persistence.*;
@@ -31,7 +32,8 @@ public class Director {
     private LocalDate birthday;
 
     @Column(name = "gender", nullable = false)
-    private Character gender;
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
 
     @Column(name = "instagram", unique = true)
     private String instagram;

@@ -10,6 +10,7 @@ import com.svlugovoy.hibernatedemo.domain.Actor;
 import com.svlugovoy.hibernatedemo.domain.Director;
 import com.svlugovoy.hibernatedemo.domain.Movie;
 import com.svlugovoy.hibernatedemo.domain.dto.MovieProjection;
+import com.svlugovoy.hibernatedemo.domain.enums.Gender;
 import com.svlugovoy.hibernatedemo.exception.DaoOperationException;
 import com.svlugovoy.hibernatedemo.util.EntityManagerUtil;
 import com.svlugovoy.hibernatedemo.util.FileReader;
@@ -56,7 +57,7 @@ public class Runner {
 
         Actor newActor = Actor.builder()
                 .firstName("Salma").lastName("Hayek").birthday(LocalDate.of(1966, Month.SEPTEMBER, 2))
-                .gender('f').build();
+                .gender(Gender.FEMALE).build();
         System.out.println(newActor);
         Long savedId = actorDao.save(newActor);
         System.out.println(savedId);
