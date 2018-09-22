@@ -1,5 +1,15 @@
 package com.svlugovoy.hibernatedemo;
 
+import com.svlugovoy.hibernatedemo.dao.ActorDao;
+import com.svlugovoy.hibernatedemo.dao.DirectorDao;
+import com.svlugovoy.hibernatedemo.dao.MovieDao;
+import com.svlugovoy.hibernatedemo.dao.impl.ActorDaoImpl;
+import com.svlugovoy.hibernatedemo.dao.impl.DirectorDaoImpl;
+import com.svlugovoy.hibernatedemo.dao.impl.MovieDaoImpl;
+import com.svlugovoy.hibernatedemo.domain.Actor;
+import com.svlugovoy.hibernatedemo.domain.Director;
+import com.svlugovoy.hibernatedemo.domain.Movie;
+import com.svlugovoy.hibernatedemo.domain.dto.MovieProjection;
 import com.svlugovoy.hibernatedemo.exception.DaoOperationException;
 import com.svlugovoy.hibernatedemo.util.EntityManagerUtil;
 import com.svlugovoy.hibernatedemo.util.FileReader;
@@ -11,6 +21,9 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.Month;
+import java.util.List;
 
 public class Runner {
 
@@ -18,14 +31,71 @@ public class Runner {
     private final static String TABLE_POPULATION_SQL_FILE = "db/migration/table_population.sql";
 
     private static DataSource dataSource;
-    private static EntityManagerUtil emUtil;
     private static EntityManagerFactory entityManagerFactory;
+    private static EntityManagerUtil emUtil;
+
+    private static ActorDao actorDao;
+    private static DirectorDao directorDao;
+    private static MovieDao movieDao;
+
 
     public static void main(String[] args) {
         initDatasource();
         initPersistence();
         initTablesInDB();
         populateTablesInDB();
+        initDaos();
+
+        List<Actor> actors = actorDao.findAll(false);
+        actors.forEach(System.out::println);
+        System.out.println("#####***######");
+
+        List<Actor> actorsWithMovies = actorDao.findAll(true);
+        actorsWithMovies.forEach(System.out::println);
+        System.out.println("#####***######");
+
+        Actor newActor = Actor.builder()
+                .firstName("Salma").lastName("Hayek").birthday(LocalDate.of(1966, Month.SEPTEMBER, 2))
+                .gender('f').build();
+        System.out.println(newActor);
+        Long savedId = actorDao.save(newActor);
+        System.out.println(savedId);
+        Actor newActorById = actorDao.findById(savedId);
+        System.out.println(newActorById);
+        System.out.println("#####***######");
+
+        Actor actorById = actorDao.findById(5L);
+        System.out.println(actorById);
+
+        actorById.setFirstName("UPDATED");
+        actorDao.update(actorById);
+
+        Actor updatedActorById = actorDao.findById(5L);
+        System.out.println(updatedActorById);
+        System.out.println("#####***######");
+
+        actorDao.remove(5L);
+        try {
+            System.out.println(actorDao.findById(5L));
+            throw new RuntimeException("Should not be here");
+        } catch (DaoOperationException e) {
+            System.out.println("Actor deleted successful");
+        }
+        System.out.println("#####***######");
+
+        Director director = directorDao.findById(1L);
+        List<Actor> actorsInFilmsFromDirector = actorDao.findActorsInFilmsFromDirector(director);
+        actorsInFilmsFromDirector.forEach(System.out::println);
+        System.out.println("#####***######");
+
+        Actor actor = actorDao.findById(1L);
+        List<Movie> moviesWithActor = movieDao.findAllMoviesWithActor(actor);
+        moviesWithActor.forEach(System.out::println);
+        System.out.println("#####***######");
+
+        List<MovieProjection> moviesNamesWithActor = movieDao.findAllMoviesNamesWithActor(actor);
+        moviesNamesWithActor.forEach(System.out::println);
+        System.out.println("#####***######");
 
     }
 
@@ -63,6 +133,12 @@ public class Runner {
         } catch (SQLException e) {
             throw new DaoOperationException("Shit happened during tables population.", e);
         }
+    }
+
+    private static void initDaos() {
+        actorDao = new ActorDaoImpl(entityManagerFactory);
+        directorDao = new DirectorDaoImpl(entityManagerFactory);
+        movieDao = new MovieDaoImpl(entityManagerFactory);
     }
 
 }

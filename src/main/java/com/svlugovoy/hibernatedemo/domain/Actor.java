@@ -1,19 +1,17 @@
 package com.svlugovoy.hibernatedemo.domain;
 
 import lombok.*;
+import org.hibernate.LazyInitializationException;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+//@ToString
 @Builder
 @Entity
 @Table(name = "actors")
@@ -68,6 +66,31 @@ public class Actor {
     @Override
     public int hashCode() {
         return 31;
+    }
+
+    @Override
+    public String toString() {
+        try {
+            return "Actor{" +
+                    "id=" + id +
+                    ", firstName='" + firstName + '\'' +
+                    ", lastName='" + lastName + '\'' +
+                    ", birthday=" + birthday +
+                    ", gender=" + gender +
+                    ", instagram='" + instagram + '\'' +
+                    ", movies=" + getMovies() +
+                    '}';
+        } catch (LazyInitializationException e){
+            return "Actor{" +
+                    "id=" + id +
+                    ", firstName='" + firstName + '\'' +
+                    ", lastName='" + lastName + '\'' +
+                    ", birthday=" + birthday +
+                    ", gender=" + gender +
+                    ", instagram='" + instagram + '\'' +
+                    ", movies=" + Collections.EMPTY_SET +
+                    '}';
+        }
     }
 }
 
